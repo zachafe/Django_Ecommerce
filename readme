@@ -54,6 +54,6 @@ sudo docker-compose run --rm ecommerce_django python manage.py createsuperuser
 sudo docker-compose run --rm ecommerce_django python manage.py startapp infraestructura
 
 #CURSO VIDEO
-#3
+#7
 
 
