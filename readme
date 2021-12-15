@@ -51,9 +51,9 @@ sudo docker-compose run --rm ecommerce_django python manage.py migrate
 #CREAR SUPER USUARIO
 sudo docker-compose run --rm ecommerce_django python manage.py createsuperuser
 #CREAR APP
-sudo docker-compose run --rm ecommerce_django python manage.py startapp infraestructura
+sudo docker-compose run --rm ecommerce_django python manage.py startapp erp
 
-#CURSO VIDEO
-#7
+#CURSO VIDEO VISTO
+#8
 
 
