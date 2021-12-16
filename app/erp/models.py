@@ -8,14 +8,36 @@ from crum import get_current_user
 #IMPORTAR MODELO BASE  PARA CAMPOS DE AUDITORIA
 from app.models import BaseModel
 
-# Create your models here.
+class Type (models.Model):
+    name = models.CharField(max_length=150,unique=True,verbose_name='Nombre')
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name ='Tipo'
+        verbose_name_plural = 'Tipos'
+        ordering = ['id']
+
+class Category (models.Model):
+    name = models.CharField(max_length=150,verbose_name='Nombre')
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name ='Categoria'
+        verbose_name_plural = 'Categorias'
+        ordering = ['id']
+
 class Employee(BaseModel):
     
     SEXO_CHOICES = (
         ("F", "Feminino"),
         ("M", "Masculino")
     )
-    
+    categ = models.ManyToManyField(Category)
+    type = models.ForeignKey(Type,on_delete=models.PROTECT)
     names = models.CharField(max_length=150,verbose_name='Nombres')
     lastname = models.CharField(max_length=150,verbose_name='Apellidos')
     dni = models.CharField(max_length=10,unique=True,verbose_name='Identificacion')

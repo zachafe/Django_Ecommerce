@@ -53,7 +53,10 @@ sudo docker-compose run --rm ecommerce_django python manage.py createsuperuser
 #CREAR APP
 sudo docker-compose run --rm ecommerce_django python manage.py startapp erp
 
+#EJECTUAR PRUEBAS DESDE EL ARCHIVO DE TESTS.PY PARA CADA APP
+sudo docker-compose run --rm ecommerce_django python manage.py test app/erp
+
 #CURSO VIDEO VISTO
-#8
+#12
 
 
