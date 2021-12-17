@@ -1,5 +1,9 @@
 from django.db import models
 from datetime import datetime
+#IMPOTAR MODELO USER
+from django.contrib.auth.models import User
+#IMPORTAR LOS choices PARA las opciones
+from app.erp.choices import *
 
 #LIBRERIA DE HISTORICO
 from simple_history.models import HistoricalRecords
@@ -31,11 +35,6 @@ class Category (models.Model):
         ordering = ['id']
 
 class Employee(BaseModel):
-    
-    SEXO_CHOICES = (
-        ("F", "Feminino"),
-        ("M", "Masculino")
-    )
     categ = models.ManyToManyField(Category)
     type = models.ForeignKey(Type,on_delete=models.PROTECT)
     names = models.CharField(max_length=150,verbose_name='Nombres')
@@ -82,3 +81,154 @@ class Employee(BaseModel):
         verbose_name_plural = 'Empleados'
         db_table ='empleado'
         ordering = ['id']
+        
+class Product(BaseModel):
+    name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
+    cate = models.ForeignKey(Category, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
+    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    #GENERAR HISTORICO A LA TABLA
+    historical = HistoricalRecords()
+
+    #para la parte de historico
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+    
+    #SOBREESCRIBIR MODELO SAVE PARA CAMPOS DE CONTROL
+    def save(self,force_insert=False,force_update=False,using=None,update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Product,self).save()
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Producto'
+        verbose_name_plural = 'Productos'
+        ordering = ['id']
+
+class Client(BaseModel):
+    names = models.CharField(max_length=150, verbose_name='Nombres')
+    surnames = models.CharField(max_length=150, verbose_name='Apellidos')
+    dni = models.CharField(max_length=10, unique=True, verbose_name='Dni')
+    birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
+    address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
+    sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, default='M', verbose_name='Sexo')
+
+    #GENERAR HISTORICO A LA TABLA
+    historical = HistoricalRecords()
+
+    #para la parte de historico
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+    
+    #SOBREESCRIBIR MODELO SAVE PARA CAMPOS DE CONTROL
+    def save(self,force_insert=False,force_update=False,using=None,update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Client,self).save()
+    
+    def __str__(self):
+        return self.names
+
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
+        ordering = ['id']
+        
+class Sale(BaseModel):
+    cli = models.ForeignKey(Client, on_delete=models.PROTECT)
+    date_joined = models.DateField(default=datetime.now)
+    subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    
+    #GENERAR HISTORICO A LA TABLA
+    historical = HistoricalRecords()
+
+    #para la parte de historico
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+    
+    #SOBREESCRIBIR MODELO SAVE PARA CAMPOS DE CONTROL
+    def save(self,force_insert=False,force_update=False,using=None,update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(Sale,self).save()
+    
+    def __str__(self):
+        return self.cli.names
+        
+    class Meta:
+        verbose_name = 'Venta'
+        verbose_name_plural = 'Ventas'
+        ordering = ['id']
+
+
+class DetSale(BaseModel):
+    sale = models.ForeignKey(Sale, on_delete=models.PROTECT)
+    prod = models.ForeignKey(Product, on_delete=models.PROTECT)
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    cant = models.IntegerField(default=0)
+    subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    #GENERAR HISTORICO A LA TABLA
+    historical = HistoricalRecords()
+
+    #para la parte de historico
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
+    
+    #SOBREESCRIBIR MODELO SAVE PARA CAMPOS DE CONTROL
+    def save(self,force_insert=False,force_update=False,using=None,update_fields=None):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
+        super(DetSale,self).save()
+
+    def __str__(self):
+        return self.prod.name
+
+    class Meta:
+        verbose_name = 'Detalle de Venta'
+        verbose_name_plural = 'Detalle de Ventas'
+        ordering = ['id']
+    
+    

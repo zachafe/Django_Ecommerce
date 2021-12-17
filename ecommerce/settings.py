@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #Apps Propias
     'app.erp',
+    #'app.user',
+    #THIRD LIBRERIAS
+    'rest_framework',
+    'simple_history',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #LIBRERIA DE MODULO DE AUDITORIA PARA LOS MODELOS, CREATE, EDIT
+    'crum.CurrentRequestUserMiddleware',
+    #AGREGAR HISTORIAL POR CADA EVENTO SOBRE EL MODELO
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -118,9 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 

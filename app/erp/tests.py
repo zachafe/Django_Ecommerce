@@ -7,7 +7,7 @@ from app.erp.models import Type, Employee
 
 # INSERTAR
 # t = Type()
-# t.name = 'Operario'
+# t.name = 'Operario Auxiliar II'
 # t.save()
 
 # EDITAR
