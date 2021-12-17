@@ -1,5 +1,5 @@
 from ecommerce.wsgi import *
-from app.erp.models import Type, Employee
+from app.erp.models import Type, Employee,Product
 
 # LISTAR
 # query = Type.objects.all()
@@ -46,3 +46,7 @@ obj = Employee.objects.filter(type_id=1)
 #ITERAR
 for i in Type.objects.filter():
     print(i.name)
+    
+#ITERAR
+for i in Product.objects.filter():
+    print(i.name+'-'+i.cate.name)
