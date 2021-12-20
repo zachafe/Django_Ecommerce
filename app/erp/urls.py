@@ -19,4 +19,6 @@ from app.erp.views import *
 urlpatterns = [
     path('uno/',myFirstView),
     path('dos/',mySecondView),
+    path('tres/',myFirstModel),
+    path('productos/',myFirstProductos),
 ]

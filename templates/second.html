@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block content %}
+<ul>
+    {% for product in  productos%}
+        <li>
+            {{product.id}} / {{product.name}}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock content %}

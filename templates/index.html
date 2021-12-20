@@ -7,6 +7,16 @@
     <title>Document</title>
 </head>
 <body>
-    <p>{{ first_name }}</p>
+    <h1>Mi primer Pagina web</h1>
+    <p>{{ name }}</p>
+    {% block content %}
+        <ul>
+            {% for category in  categorias%}
+                <li>
+                    {{category.id}} / {{category.name}}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
 </body>
 </html>
