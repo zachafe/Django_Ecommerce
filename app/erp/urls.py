@@ -16,6 +16,9 @@ Including another URLconf
 from django.urls import path
 #importar vistas
 from app.erp.views import *
+#agrupar mi listas
+app_name='erp'
+
 urlpatterns = [
     path('uno/',myFirstView,name='vista1'),
     path('dos/',mySecondView,name='vista2'),
