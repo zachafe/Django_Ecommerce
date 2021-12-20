@@ -17,8 +17,8 @@ from django.urls import path
 #importar vistas
 from app.erp.views import *
 urlpatterns = [
-    path('uno/',myFirstView),
-    path('dos/',mySecondView),
-    path('tres/',myFirstModel),
-    path('productos/',myFirstProductos),
+    path('uno/',myFirstView,name='vista1'),
+    path('dos/',mySecondView,name='vista2'),
+    path('tres/',myFirstModel,name='vista3'),
+    path('productos/',myFirstProductos,name='productos'),
 ]
