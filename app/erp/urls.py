@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.urls import path
 #importar vistas
-from app.erp.views import *
+#from app.erp.views import *
+from app.erp.views.category.views import category_list
 #agrupar mi listas
 app_name='erp'
 
 urlpatterns = [
-    path('uno/',myFirstView,name='vista1'),
-    path('dos/',mySecondView,name='vista2'),
-    path('tres/',myFirstModel,name='vista3'),
-    path('productos/',myFirstProductos,name='productos'),
+    # path('uno/',myFirstView,name='vista1'),
+    # path('dos/',mySecondView,name='vista2'),
+    # path('tres/',myFirstModel,name='vista3'),
+    # path('productos/',myFirstProductos,name='productos'),
+    path('category/list/',category_list,name='category_list')
 ]
