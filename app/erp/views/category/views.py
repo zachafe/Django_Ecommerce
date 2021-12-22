@@ -17,8 +17,8 @@ class CategoryListView(ListView):
     template_name = 'category/list.html'
 
     def get_queryset(self):
-        #return Category.objects.all()
-        return Category.objects.filter(name__startswith='A')
+        return Category.objects.all()
+        #return Category.objects.filter(name__startswith='A')
     
     #editar el comportamiento
     def get_context_data(self, **kwargs):
