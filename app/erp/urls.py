@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path
 #importar vistas
 #from app.erp.views import *
-from app.erp.views.category.views import category_list
+from app.erp.views.category.views import *
 #agrupar mi listas
 app_name='erp'
 
@@ -25,5 +25,6 @@ urlpatterns = [
     # path('dos/',mySecondView,name='vista2'),
     # path('tres/',myFirstModel,name='vista3'),
     # path('productos/',myFirstProductos,name='productos'),
-    path('category/list/',category_list,name='category_list')
+    path('category/list/',category_list,name='category_list'),
+    path('category/listClass/',CategoryListView.as_view(),name='category_list_class')
 ]
