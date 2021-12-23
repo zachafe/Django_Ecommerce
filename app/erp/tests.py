@@ -52,6 +52,15 @@ from app.erp.models import Type, Employee,Product,Category
 #     print(i.name+'-'+i.cate.name)
 
 #INSERTAR CATEGORIA
-t = Category()
-t.name = 'Legumbres'
-t.save()
+# t = Category()
+# t.name = 'Legumbres'
+# t.save()
+
+data = ['Leche y derivados', 'Carnes, pescados y huevos', 'Patatas, legumbres, frutos secos',
+        'Verduras y Hortalizas', 'Frutas', 'Cereales y derivados, azúcar y dulces',
+        'Grasas, aceite y mantequilla']
+
+for i in data:
+    cat = Category(name=i)
+    cat.save()
+    print('Guardado registro N°{}'.format(cat.id))
