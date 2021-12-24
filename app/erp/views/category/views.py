@@ -1,6 +1,8 @@
 #Importar librerias
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render,redirect
 from django.views.generic import ListView
+from django.utils.decorators import method_decorator
 #Importar modelos
 from app.erp.models import *
 #vistas basadas en funciones
@@ -16,6 +18,12 @@ class CategoryListView(ListView):
     model = Category
     template_name = 'category/list.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        # if request.method == 'GET':
+        #     return redirect('erp:category_list')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self):
         return Category.objects.all()
         #return Category.objects.filter(name__startswith='A')

@@ -26,5 +26,6 @@ urlpatterns = [
     # path('tres/',myFirstModel,name='vista3'),
     # path('productos/',myFirstProductos,name='productos'),
     path('category/list/',category_list,name='category_list'),
-    path('category/listClass/',CategoryListView.as_view(),name='category_list_class')
+    path('category/listClass/',CategoryListView.as_view(),name='category_list_class'),
+    path('category/listClass2/',CategoryListView.as_view(),name='category_list_class2')
 ]
