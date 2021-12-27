@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     #THIRD LIBRERIAS
     'rest_framework',
     'simple_history',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
