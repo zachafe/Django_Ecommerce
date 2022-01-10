@@ -32,16 +32,30 @@ class CategoryListView(ListView):
         #     return redirect('erp:category_list')
         return super().dispatch(request, *args, **kwargs)
     
-    def post(self,request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         data = {}
-        #print(request.POST)
         try:
-            #cat = Category.objects.get(pk=request.POST['id'])
-            #data['name'] = cat.name
-            data = Category.objects.get(pk=request.POST['id']).toJSON()
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Category.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
+    
+    # def post(self,request, *args, **kwargs):
+    #     data = {}
+    #     #print(request.POST)
+    #     try:
+    #         #cat = Category.objects.get(pk=request.POST['id'])
+    #         #data['name'] = cat.name
+    #         data = Category.objects.get(pk=request.POST['id']).toJSON()
+    #     except Exception as e:
+    #         data['error'] = str(e)
+    #     return JsonResponse(data)
     
     def get_queryset(self):
         return Category.objects.all()
