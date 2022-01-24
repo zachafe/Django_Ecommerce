@@ -1,11 +1,16 @@
-{% extends 'body.html' %}
+{% extends 'layout.html' %}
 {% load widget_tweaks %}
 {% block content %}
     <form method="post" action=".">
-        <div class="card card-default">
+        <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">
-                    <i class="fas fa-plus"></i>
+                    {% if action == 'add' %}
+                        <i class="fas fa-plus"></i>
+                    {% else %}
+                        <i class="fas fa-edit"></i>
+                    {% endif %}
+
                     {{ title }}
                 </h3>
             </div>
@@ -25,7 +30,6 @@
                         </ul>
                     </div>
                 {% endif %}
-
                 {% for field in form.visible_fields %}
                     <div class="form-group">
                         <label for="email">{{ field.label }}:</label>
@@ -48,17 +52,20 @@
                     errors += '{{ error }}\n';
                 {% endfor %}
             {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
             Swal.fire({
                 title: 'Error!',
                 text: errors,
                 icon: 'error'
             });
         {% endif %}
-        $('form').on('submit', function (e) {
+
+        /*$('form').on('submit', function (e) {
             e.preventDefault();
             var parameters = $(this).serializeArray();
             $.ajax({
-                /*url: '{% url 'erp:category_create' %}',*/
                 url: window.location.pathname,
                 type: 'POST',
                 data: parameters,
@@ -75,6 +82,6 @@
             }).always(function (data) {
 
             });
-        });
+        });*/
     </script>
 {% endblock %}

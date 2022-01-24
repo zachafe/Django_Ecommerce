@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #Apps Propias
     'app.erp',
+    'app.homepage',
     #'app.user',
     #THIRD LIBRERIAS
     'rest_framework',
