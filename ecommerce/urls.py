@@ -21,6 +21,6 @@ from app.login.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('erp/',include('app.erp.urls')),
-    path('', IndexView.as_view()),
+    path('', IndexView.as_view(), name='index'),
     path('login/', include('app.login.urls')),
 ]
