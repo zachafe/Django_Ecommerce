@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #Apps Propias
     'app.erp',
     'app.homepage',
+    'app.login',
     #'app.user',
     #THIRD LIBRERIAS
     'rest_framework',
@@ -152,3 +153,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/erp/category/list/'
+
+LOGOUT_REDIRECT_URL = '/login/'
