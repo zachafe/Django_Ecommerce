@@ -155,7 +155,8 @@ class CategoryDeleteView(DeleteView):
     success_url = reverse_lazy('erp:category_list')
     
     #OBTENER EL OBJETO
-    #@method_decorator(csrf_exempt)
+    #Cuando la peticion vienen por Ajax se debe poner esta exepcion
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)

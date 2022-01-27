@@ -13,6 +13,8 @@ from crum import get_current_user
 #IMPORTAR MODELO BASE  PARA CAMPOS DE AUDITORIA
 from app.models import BaseModel
 
+from ecommerce.settings import MEDIA_URL, STATIC_URL
+
 class Type (models.Model):
     name = models.CharField(max_length=150,unique=True,verbose_name='Nombre')
     
@@ -90,9 +92,9 @@ class Employee(BaseModel):
         
 class Product(BaseModel):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
-    cate = models.ForeignKey(Category, on_delete=models.PROTECT)
-    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True)
-    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+    cat = models.ForeignKey(Category, on_delete=models.PROTECT,verbose_name='Categoria')
+    image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True,verbose_name='Imagen')
+    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2,verbose_name='Precio de Venta')
 
     #GENERAR HISTORICO A LA TABLA
     historical = HistoricalRecords()
@@ -118,6 +120,11 @@ class Product(BaseModel):
     
     def __str__(self):
         return self.name
+
+    def get_image(self):
+        if self.image:
+            return '{}{}'.format(MEDIA_URL, self.image)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     class Meta:
         verbose_name = 'Producto'
