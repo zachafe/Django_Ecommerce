@@ -25,8 +25,8 @@ class CategoryListView(ListView):
     model = Category
     template_name = 'category/list.html'
 
-    #@method_decorator(login_required)
     @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         # if request.method == 'GET':
         #     return redirect('erp:category_list')
