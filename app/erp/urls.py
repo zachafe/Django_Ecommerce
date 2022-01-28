@@ -19,6 +19,7 @@ from django.urls import path
 from app.erp.views.category.views import *
 from app.erp.views.dashboard.views import *
 from app.erp.views.product.views import *
+from app.erp.views.tests.views import TestView
 #agrupar mi listas
 app_name='erp'
 
@@ -41,4 +42,6 @@ urlpatterns = [
     path('product/add/', ProductCreateView.as_view(), name='product_create'),
     path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
     path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
+    # test
+    path('test/', TestView.as_view(), name='test'),
 ]
