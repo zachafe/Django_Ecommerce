@@ -29,6 +29,7 @@ class CategoryForm(ModelForm):
                 }
             ),
         }
+        exclude = ['user_creation','user_updated']
 
     def save(self, commit=True):
         data = {}
@@ -64,6 +65,7 @@ class ProductForm(ModelForm):
                 }
             ),
         }
+        exclude = ['user_creation','user_updated']
 
     def save(self, commit=True):
         data = {}
