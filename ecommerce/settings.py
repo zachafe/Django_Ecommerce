@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'app.erp',
     'app.homepage',
     'app.login',
-    #'app.user',
+    'app.user',
     #THIRD LIBRERIAS
     'rest_framework',
     'simple_history',
@@ -163,3 +163,5 @@ LOGIN_URL = '/login/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'user.User'
