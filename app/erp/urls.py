@@ -20,6 +20,8 @@ from app.erp.views.category.views import *
 from app.erp.views.dashboard.views import *
 from app.erp.views.product.views import *
 from app.erp.views.tests.views import TestView
+from app.erp.views.client.views import ClientView
+
 #agrupar mi listas
 app_name='erp'
 
@@ -44,4 +46,6 @@ urlpatterns = [
     path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
     # test
     path('test/', TestView.as_view(), name='test'),
+    # client
+    path('client/', ClientView.as_view(), name='client'),
 ]

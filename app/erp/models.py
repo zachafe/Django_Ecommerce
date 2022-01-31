@@ -135,9 +135,9 @@ class Client(BaseModel):
     names = models.CharField(max_length=150, verbose_name='Nombres')
     surnames = models.CharField(max_length=150, verbose_name='Apellidos')
     dni = models.CharField(max_length=10, unique=True, verbose_name='Dni')
-    birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
+    date_birthday = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
-    sexo = models.CharField(max_length=10, choices=SEXO_CHOICES, default='M', verbose_name='Sexo')
+    gender = models.CharField(max_length=10, choices=SEXO_CHOICES, default='M', verbose_name='Sexo')
 
     #GENERAR HISTORICO A LA TABLA
     historical = HistoricalRecords()
@@ -164,6 +164,12 @@ class Client(BaseModel):
     def __str__(self):
         return self.names
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['gender'] = self.get_gender_display()
+        item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        return item
+    
     class Meta:
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
