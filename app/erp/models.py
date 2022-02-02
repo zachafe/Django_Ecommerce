@@ -34,7 +34,8 @@ class Category (models.Model):
         return self.name
     
     def toJSON(self):
-        item = model_to_dict(self)
+        #item = model_to_dict(self)
+        item = model_to_dict(self, exclude=['user_creation', 'user_updated'])
         return item
         
     class Meta:
