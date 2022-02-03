@@ -1,5 +1,6 @@
 #Importar librerias
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
@@ -11,6 +12,8 @@ from django.http import HttpResponse, JsonResponse,HttpResponseRedirect
 from app.erp.models import *
 #importar formularios
 from app.erp.forms import CategoryForm
+#MIXINS
+from app.erp.mixins import IsSuperuserMixin,ValidatePermissionRequiredMixin
 
 #vistas basadas en funciones
 def category_list(request):
@@ -20,13 +23,15 @@ def category_list(request):
     }
     return render(request,'category/list.html',data)
 
-#VISTA BASADAS EN CLASES
-class CategoryListView(ListView):
+#VISTA BASADAS EN CLASES, Primero validamos estar logueado, luego si es super usuario, luego list
+class CategoryListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
+    permission_required = ('erp.view_category', 'erp.change_category')
+    #permission_required = 'erp.delete_category'
     model = Category
     template_name = 'category/list.html'
 
     @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
+    #@method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         # if request.method == 'GET':
         #     return redirect('erp:category_list')
