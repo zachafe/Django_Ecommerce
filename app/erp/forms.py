@@ -1,11 +1,11 @@
-from django.forms import *
-
-from app.erp.models import Category,Product, Client
-
 from datetime import datetime
 
-class CategoryForm(ModelForm):
+from django.forms import *
 
+from app.erp.models import Category, Product, Client
+
+
+class CategoryForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # for form in self.visible_fields():
@@ -30,8 +30,7 @@ class CategoryForm(ModelForm):
                 }
             ),
         }
-        exclude = ['user_creation','user_updated']
-
+        
     def save(self, commit=True):
         data = {}
         form = super()
@@ -43,14 +42,8 @@ class CategoryForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-    
-    def clean(self):
-        cleaned = super().clean()
-        if len(cleaned['name']) <= 3:
-            raise forms.ValidationError('Validacion xxx')
-            #self.add_error('name', 'Le faltan caracteres')
-        return cleaned
-    
+
+
 class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -63,6 +56,12 @@ class ProductForm(ModelForm):
             'name': TextInput(
                 attrs={
                     'placeholder': 'Ingrese un nombre',
+                }
+            ),
+            'cat': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
                 }
             ),
         }
@@ -80,27 +79,6 @@ class ProductForm(ModelForm):
             data['error'] = str(e)
         return data
 
-
-class TestForm(Form):
-    categories = ModelChoiceField(queryset=Category.objects.all(), widget=Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%'
-    }))
-
-    products = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%'
-    }))
-
-    # search = CharField(widget=TextInput(attrs={
-    #     'class': 'form-control',
-    #     'placeholder': 'Ingrese una descripción'
-    # }))
-
-    search = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%'
-    }))
 
 class ClientForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -138,7 +116,7 @@ class ClientForm(ModelForm):
             ),
             'gender': Select()
         }
-        exclude = ['user_updated', 'user_creation']
+        exclude = ['user_creation','user_updated']
 
     def save(self, commit=True):
         data = {}
@@ -158,3 +136,25 @@ class ClientForm(ModelForm):
     #         raise forms.ValidationError('Validacion xxx')
     #         # self.add_error('name', 'Le faltan caracteres')
     #     return cleaned
+
+
+class TestForm(Form):
+    categories = ModelChoiceField(queryset=Category.objects.all(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))
+
+    products = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))
+
+    # search = CharField(widget=TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder': 'Ingrese una descripción'
+    # }))
+
+    search = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))

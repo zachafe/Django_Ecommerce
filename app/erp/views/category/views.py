@@ -1,42 +1,24 @@
-#Importar librerias
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.urls import reverse_lazy
-from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from django.views.generic import ListView,CreateView,UpdateView,DeleteView,FormView
 from django.utils.decorators import method_decorator
-from django.http import HttpResponse, JsonResponse,HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-#Importar modelos
-from app.erp.models import *
-#importar formularios
 from app.erp.forms import CategoryForm
-#MIXINS
-from app.erp.mixins import IsSuperuserMixin,ValidatePermissionRequiredMixin
+from app.erp.mixins import ValidatePermissionRequiredMixin
+from app.erp.models import Category
 
-#vistas basadas en funciones
-def category_list(request):
-    data = {
-        'title':'Listado de categorias',
-        'categories': Category.objects.all()
-    }
-    return render(request,'category/list.html',data)
 
-#VISTA BASADAS EN CLASES, Primero validamos estar logueado, luego si es super usuario, luego list
-class CategoryListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListView):
-    permission_required = ('erp.view_category', 'erp.change_category')
-    #permission_required = 'erp.delete_category'
+class CategoryListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Category
     template_name = 'category/list.html'
+    permission_required = 'erp.view_category'
 
     @method_decorator(csrf_exempt)
-    #@method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        # if request.method == 'GET':
-        #     return redirect('erp:category_list')
         return super().dispatch(request, *args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -50,28 +32,6 @@ class CategoryListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListVi
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
-    # def post(self,request, *args, **kwargs):
-    #     data = {}
-    #     #print(request.POST)
-    #     try:
-    #         #cat = Category.objects.get(pk=request.POST['id'])
-    #         #data['name'] = cat.name
-    #         data = Category.objects.get(pk=request.POST['id']).toJSON()
-    #     except Exception as e:
-    #         data['error'] = str(e)
-    #     return JsonResponse(data)
-    
-    def get_queryset(self):
-        return Category.objects.all()
-        #return Category.objects.filter(name__startswith='A')
-    
-    #editar el comportamiento, object_list esta la data
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["title"] = 'Listado de categorias'
-    #     context["categories"]= context["object_list"]
-    #     return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,12 +41,17 @@ class CategoryListView(LoginRequiredMixin,ValidatePermissionRequiredMixin,ListVi
         context['entity'] = 'Categorias'
         return context
 
-#VISTA BASADA EN CLASES CREAR
-class CategoryCreateView(CreateView):
+
+class CategoryCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
+    permission_required = 'erp.add_category'
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -101,36 +66,27 @@ class CategoryCreateView(CreateView):
             data['error'] = str(e)
         return JsonResponse(data)
 
-    #     print(request.POST)
-    #     form = CategoryForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         return HttpResponseRedirect(self.success_url)
-    #     self.object = None
-    #     context = self.get_context_data(**kwargs)
-    #     context['form'] = form
-    #     return render(request, self.template_name, context)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Creación una Categoria'
         context['entity'] = 'Categorias'
-        context['list_url'] = reverse_lazy('erp:category_list')
+        context['list_url'] = self.success_url
         context['action'] = 'add'
         return context
 
-#VISTA BASADA EN CLASES UPDATE
-class CategoryUpdateView(UpdateView):
+
+class CategoryUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'category/create.html'
     success_url = reverse_lazy('erp:category_list')
-    
+    permission_required = 'erp.change_category'
+    url_redirect = success_url
+
     def dispatch(self, request, *args, **kwargs):
-        #OBTENER EL OBJETO ACTUAL QUE ESTAMOS LLAMANDO POR AJAX
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
-    
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -143,25 +99,23 @@ class CategoryUpdateView(UpdateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-    
+
     def get_context_data(self, **kwargs):
-        #print(self.object)
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Edicion de una Categoria'
+        context['title'] = 'Edición una Categoria'
         context['entity'] = 'Categorias'
-        context['list_url'] = reverse_lazy('erp:category_list')
+        context['list_url'] = self.success_url
         context['action'] = 'edit'
         return context
 
-#VISTA BASADA EN CLASES DELETE
-class CategoryDeleteView(DeleteView):
+
+class CategoryDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Category
     template_name = 'category/delete.html'
     success_url = reverse_lazy('erp:category_list')
-    
-    #OBTENER EL OBJETO
-    #Cuando la peticion vienen por Ajax se debe poner esta exepcion
-    @method_decorator(csrf_exempt)
+    permission_required = 'erp.delete_category'
+    url_redirect = success_url
+
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
@@ -173,35 +127,10 @@ class CategoryDeleteView(DeleteView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
-    
-    def get_context_data(self, **kwargs):
-        #print(self.object)
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminacion de una Categoria'
-        context['entity'] = 'Categorias'
-        context['list_url'] = reverse_lazy('erp:category_list')
-        context['action'] = 'delete'
-        return context
-
-class CategoryFormView(FormView):
-    form_class = CategoryForm
-    template_name = 'category/create.html'
-    success_url = reverse_lazy('erp:category_list')
-
-    def form_valid(self, form):
-        print(form.is_valid())
-        print(form)
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        print(form.is_valid())
-        print(form.errors)
-        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Form | Categoria'
+        context['title'] = 'Eliminación de una Categoria'
         context['entity'] = 'Categorias'
-        context['list_url'] = reverse_lazy('erp:category_list')
-        context['action'] = 'add'
+        context['list_url'] = self.success_url
         return context
