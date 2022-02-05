@@ -163,7 +163,7 @@ class Client(BaseModel):
         super(Client,self).save()
     
     def __str__(self):
-        return self.names
+        return self.names+" "+self.surnames
 
     def toJSON(self):
         item = model_to_dict(self)
