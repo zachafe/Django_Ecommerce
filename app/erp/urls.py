@@ -19,7 +19,7 @@ from app.erp.views.client.views import *
 from app.erp.views.dashboard.views import *
 from app.erp.views.product.views import *
 from app.erp.views.tests.views import TestView
-from app.erp.views.sale.views import SaleCreateView
+from app.erp.views.sale.views import *
 
 #agrupar mi listas
 app_name='erp'
@@ -46,4 +46,6 @@ urlpatterns = [
     path('test/', TestView.as_view(), name='test'),
     # sale
     path('sale/add/', SaleCreateView.as_view(), name='sale_create'),
+    path('sale/list/', SaleListView.as_view(), name='sale_list'),
+    path('sale/delete/<int:pk>/', SaleDeleteView.as_view(), name='sale_delete'),
 ]
