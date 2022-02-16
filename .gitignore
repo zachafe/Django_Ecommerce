@@ -1,3 +1,2 @@
 data_mysql/
-__pycache__/
-*.pyc
+**/__pycache__/*.pyc
