@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'app.homepage',
     'app.login',
     'app.user',
+    'app.reports',
     #THIRD LIBRERIAS
     'rest_framework',
     'simple_history',
