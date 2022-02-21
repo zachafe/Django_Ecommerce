@@ -15,4 +15,6 @@ Pillow==8.3.1
 #LIBRERIA DE WIDGET PARA FORMULARIOS HTMl
 django-widget-tweaks==1.4.9
 #LIBRERIA DE PDFs
-xhtml2pdf
+xhtml2pdf==0.2.5
+reportlab==3.6.1
+#django-xhtml2pdf
