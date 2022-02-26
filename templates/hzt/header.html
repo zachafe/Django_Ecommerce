@@ -4,8 +4,8 @@
     <div class="container">
         <a href="{% url 'erp:dashboard' %}" class="navbar-brand">
             <img src="{% static 'img/logo.png' %}" alt="AdminLTE Logo"
-                 class="brand-image"
-                 style="opacity: .8">
+                class="brand-image"
+                style="opacity: .8">
             <span class="brand-text font-weight-light">Hades</span>
         </a>
         <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -19,13 +19,14 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       class="nav-link dropdown-toggle"><i class="fas fa-folder-open"></i> Mantenimientos</a>
+                        class="nav-link dropdown-toggle"><i class="fas fa-folder-open"></i> Mantenimientos</a>
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                         <li><a href="{% url 'erp:category_list' %}" class="dropdown-item"><i class="fas fa-truck-loading"></i> Categorías</a></li>
                         <li><a href="{% url 'erp:product_list' %}" class="dropdown-item"><i class="fas fa-boxes"></i> Productos</a></li>
                         <li><a href="{% url 'erp:client_list' %}" class="dropdown-item"><i class="fas fa-users"></i> Clientes</a></li>
                         <li><a href="{% url 'erp:sale_list' %}" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Ventas</a></li>
                         <li><a href="{% url 'sale_report' %}" class="dropdown-item"><i class="fas fa-chart-bar"></i> Reporte de Ventas</a></li>
+                        <li><a href="{% url 'user:user_list' %}" class="dropdown-item"><i class="fas fa-user-friends"></i> Usuarios</a></li>
                     </ul>
                 </li>
             </ul>
