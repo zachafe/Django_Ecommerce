@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.forms import model_to_dict
-
+from crum import get_current_request
 from ecommerce.settings import MEDIA_URL, STATIC_URL
 
 
@@ -32,3 +32,13 @@ class User(AbstractUser):
     #         if user.password != self.password:
     #             self.set_password(self.password)
     #     super().save(*args, **kwargs)
+
+    def get_group_session(self):
+        try:
+            request = get_current_request()
+            groups = self.groups.all()
+            if groups.exists():
+                if 'group' not in request.session:
+                    request.session['group'] = groups[0]
+        except:
+            pass
