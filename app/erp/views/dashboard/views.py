@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.http import JsonResponse
@@ -10,7 +11,7 @@ from django.views.generic import TemplateView
 from app.erp.models import Sale, Product, DetSale
 from random import randint
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin,TemplateView):
     template_name = 'dashboard.html'
 
     @method_decorator(csrf_exempt)
