@@ -56,7 +56,10 @@ sudo docker-compose run --rm ecommerce_django python manage.py startapp erp
 #EJECTUAR PRUEBAS DESDE EL ARCHIVO DE TESTS.PY PARA CADA APP
 sudo docker-compose run --rm ecommerce_django python manage.py test app/erp
 
+#Ejecutar PRUEBAS DESDE EL ARCHIVO PRINCIPAL DE LAS APPs
+sudo docker-compose run --rm ecommerce_django python manage.py test app
+
 #CURSO VIDEO VISTO
-#89
+#90
 
 
