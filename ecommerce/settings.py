@@ -179,4 +179,4 @@ EMAIL_PORT = 587
 
 EMAIL_HOST_USER = 'af.quintero.torijano@gmail.com'
 
-EMAIL_HOST_PASSWORD = 'Emcali@ndr3s'
+EMAIL_HOST_PASSWORD = 'xxxxxxxx'
