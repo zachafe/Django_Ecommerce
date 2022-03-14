@@ -6,7 +6,7 @@ from django.db import transaction
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 
-from app.erp.forms import SaleForm
+from app.erp.forms import SaleForm,ClientForm
 from app.erp.mixins import ValidatePermissionRequiredMixin
 from django.views.generic import CreateView, ListView, DeleteView,UpdateView,View
 
@@ -73,6 +73,10 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     item = i.toJSON()
                     item['text'] = i.get_full_name()
                     data.append(item)
+            elif action == 'create_client':
+                with transaction.atomic():
+                    frmClient = ClientForm(request.POST)
+                    data = frmClient.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -86,6 +90,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
         context['list_url'] = self.success_url
         context['action'] = 'add'
         context['det'] = []
+        context['frmClient'] = ClientForm()
         return context
 
 class SaleListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
