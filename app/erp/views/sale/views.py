@@ -210,6 +210,10 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     item = i.toJSON()
                     item['text'] = i.get_full_name()
                     data.append(item)
+            elif action == 'create_client':
+                with transaction.atomic():
+                    frmClient = ClientForm(request.POST)
+                    data = frmClient.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
