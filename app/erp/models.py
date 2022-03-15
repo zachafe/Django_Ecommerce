@@ -170,7 +170,7 @@ class Client(BaseModel):
         super(Client,self).save()
     
     def __str__(self):
-        return self.names
+        return self.get_full_name()
 
     def get_full_name(self):
         return '{} {} / {}'.format(self.names, self.surnames, self.dni)
@@ -179,6 +179,7 @@ class Client(BaseModel):
         item = model_to_dict(self)
         item['gender'] = {'id': self.gender, 'name': self.get_gender_display()}
         item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
+        item['full_name'] = self.get_full_name()
         return item
     
     class Meta:

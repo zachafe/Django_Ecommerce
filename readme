@@ -60,6 +60,6 @@ sudo docker-compose run --rm ecommerce_django python manage.py test app/erp
 sudo docker-compose run --rm ecommerce_django python manage.py test app
 
 #CURSO VIDEO VISTO
-#97
+#98
 
 
