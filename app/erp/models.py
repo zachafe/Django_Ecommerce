@@ -95,6 +95,7 @@ class Product(BaseModel):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.PROTECT,verbose_name='Categoria')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True,verbose_name='Imagen')
+    stock = models.IntegerField(default=0, verbose_name='Stock')
     pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2,verbose_name='Precio de Venta')
 
     #GENERAR HISTORICO A LA TABLA
@@ -122,8 +123,11 @@ class Product(BaseModel):
     def __str__(self):
         return self.name
 
+    #se pueden escluir los campos que no puede enviar con el model to dict, como imagenes, referencias de tablas
     def toJSON(self):
+        #item = model_to_dict(self,exclude = ['image','cat'])
         item = model_to_dict(self)
+        item['full_name'] = '{} / {}'.format(self.name, self.cat.name)
         item['cat'] = self.cat.toJSON()
         item['image'] = self.get_image()
         item['pvp'] = format(self.pvp, '.2f')
