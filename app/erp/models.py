@@ -233,6 +233,12 @@ class Sale(BaseModel):
         item['det'] = [i.toJSON() for i in self.detsale_set.all()]
         return item
     
+    def delete(self, using=None, keep_parents=False):
+        for det in self.detsale_set.all():
+            det.prod.stock += det.cant
+            det.prod.save()
+        super(Sale, self).delete()
+    
     class Meta:
         verbose_name = 'Venta'
         verbose_name_plural = 'Ventas'
@@ -240,8 +246,8 @@ class Sale(BaseModel):
 
 
 class DetSale(BaseModel):
-    sale = models.ForeignKey(Sale, on_delete=models.PROTECT)
-    prod = models.ForeignKey(Product, on_delete=models.PROTECT)
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
     cant = models.IntegerField(default=0)
     subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)

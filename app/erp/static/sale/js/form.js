@@ -9,6 +9,13 @@ var vents = {
         total: 0.00,
         products: []
     },
+    get_ids: function () {
+        var ids = [];
+        $.each(this.items.products, function (key, value) {
+            ids.push(value.id);
+        });
+        return ids;
+    },
     calculate_invoice: function () {
         var subtotal = 0.00;
         var iva = $('input[name="iva"]').val();
@@ -39,7 +46,6 @@ var vents = {
             columns: [
                 {"data": "id"},
                 {"data": "full_name"},
-                //{"data": "cat.name"},
                 {"data": "stock"},
                 {"data": "pvp"},
                 {"data": "cant"},
@@ -50,7 +56,7 @@ var vents = {
                     targets: [-4],
                     class: 'text-center',
                     render: function (data, type, row) {
-                        return '<span class="badge badge-secondary">'+data+'</span>';
+                        return '<span class="badge badge-secondary">' + data + '</span>';
                     }
                 },
                 {
@@ -101,6 +107,7 @@ var vents = {
         });
         console.clear();
         console.log(this.items);
+        console.log(this.get_ids());
     },
 };
 
@@ -286,13 +293,13 @@ $(function () {
                 type: 'POST',
                 data: {
                     'action': 'search_products',
+                    'ids': JSON.stringify(vents.get_ids()),
                     'term': $('select[name="search"]').val()
                 },
                 dataSrc: ""
             },
             columns: [
                 {"data": "full_name"},
-                // {"data": "cat.name"},
                 {"data": "image"},
                 {"data": "stock"},
                 {"data": "pvp"},
@@ -311,7 +318,7 @@ $(function () {
                     targets: [-3],
                     class: 'text-center',
                     render: function (data, type, row) {
-                        return '<span class="badge badge-secondary">'+data+'</span>';
+                        return '<span class="badge badge-secondary">' + data + '</span>';
                     }
                 },
                 {
@@ -346,6 +353,7 @@ $(function () {
             product.cant = 1;
             product.subtotal = 0.00;
             vents.add(product);
+            tblSearchProducts.row($(this).parents('tr')).remove().draw();
         });
 
     // event submit
@@ -384,7 +392,8 @@ $(function () {
             data: function (params) {
                 var queryParameters = {
                     term: params.term,
-                    action: 'search_autocomplete'
+                    action: 'search_autocomplete',
+                    ids: JSON.stringify(vents.get_ids())
                 }
                 return queryParameters;
             },
@@ -399,7 +408,7 @@ $(function () {
         templateResult: formatRepo,
     }).on('select2:select', function (e) {
         var data = e.params.data;
-        if(!Number.isInteger(data.id)){
+        if (!Number.isInteger(data.id)) {
             return false;
         }
         data.cant = 1;
