@@ -1,0 +1,18 @@
+[
+{
+  "model": "erp.category",
+  "pk": 1,
+  "fields": {
+    "name": "Tecnologia",
+    "desc": null
+  }
+},
+{
+  "model": "erp.category",
+  "pk": 2,
+  "fields": {
+    "name": "Celulares",
+    "desc": null
+  }
+}
+]

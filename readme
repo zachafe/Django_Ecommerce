@@ -59,7 +59,20 @@ sudo docker-compose run --rm ecommerce_django python manage.py test app/erp
 #Ejecutar PRUEBAS DESDE EL ARCHIVO PRINCIPAL DE LAS APPs
 sudo docker-compose run --rm ecommerce_django python manage.py test app
 
+#Ejecutar dumpdata para trear toda la informacion
+sudo docker-compose run --rm ecommerce_django python manage.py dumpdata
+
+#Ejecutar dumpdata para trear toda la informacion, traer de manera organizada
+sudo docker-compose run --rm ecommerce_django python manage.py dumpdata --indent 2
+
+#solo las tablas de ERP
+sudo docker-compose run --rm ecommerce_django python manage.py dumpdata --indent 2 erp
+sudo docker-compose run --rm ecommerce_django python manage.py dumpdata --indent 2 erp.category > /home/felipe/Descargas/dba.json
+sudo docker-compose run --rm ecommerce_django python manage.py dumpdata --indent 2 erp.category dba.json
+#cargar data
+sudo docker-compose run --rm ecommerce_django python manage.py loaddata dba.json
+
 #CURSO VIDEO VISTO
-#104
+#108
 
 
