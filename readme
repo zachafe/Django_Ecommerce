@@ -72,7 +72,10 @@ sudo docker-compose run --rm ecommerce_django python manage.py dumpdata --indent
 #cargar data
 sudo docker-compose run --rm ecommerce_django python manage.py loaddata dba.json
 
+#construir los modelos apartir de una base de datos
+sudo docker-compose run --rm ecommerce_django python manage.py inspectdb > modelsDba.py
+
 #CURSO VIDEO VISTO
-#108
+#110
 
 
